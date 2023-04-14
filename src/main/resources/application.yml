@@ -1,0 +1,31 @@
+
+spring:
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: create
+      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+      show-sql: true
+      hbm2ddl:
+        auto: create-drop
+    profiles:
+      active: dev		
+    datasource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/couzy_forum
+      username: root
+      password: root
+      
+server:
+  port : 8083
+  
+school:
+  favorite-teacher:
+    name: Albert Johnson
+  favorite-pupil:
+    name: Bob Davidson
+second-server:
+  url: www.second-server.com/packages/update
+  apiKey: bXkgc3VwZXIgc2VjcmV0IGFwaSBrZXk=
+    
+
