@@ -26,6 +26,17 @@ public class JdbcTemplateSingleton {
 //	    return dataSourceBuilder.build();
 //	 }
 	
+//	 @Bean
+//	 @Primary
+//	 public DataSource getDataSource() {
+//	    DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+//	    dataSourceBuilder.driverClassName("com.mysql.jdbc.Driver");
+//	    dataSourceBuilder.url("jdbc:mysql://localhost:3306/couzy_forum");
+//	    dataSourceBuilder.username("root");
+//	    dataSourceBuilder.password("root");
+//	    return dataSourceBuilder.build();
+//	 }
+	
 	@Bean
 	@Autowired
 	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
