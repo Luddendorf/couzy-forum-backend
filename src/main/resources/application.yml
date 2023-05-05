@@ -1,0 +1,59 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/couzy_forum?serverTimezone=UTC&useSSL=false
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    # com.mysql.cj.jdbc.Driver
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: create
+      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+      show-sql: true
+      hbm2ddl:
+        auto: create-drop
+    profiles:
+      active: dev
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: some
+#            client-secret: some-secret
+#            scope: user::email, read::user
+#          google:
+#            client-id: some
+#            client-secret: some-secret
+#            scope: email, profile
+#          facebook:
+#            client-id: some
+#            client-secret: some-secret
+#            scope: email, public_profile
+flyway:
+  url: jdbc:mysql://localhost:3306/couzy_forum?serverTimezone=UTC&useSSL=false
+  user: root
+  password: root
+#  locations: db/migration
+server:
+  port : 8083
+  
+school:
+  favorite-teacher:
+    name: Albert Johnson
+  favorite-pupil:
+    name: Bob Davidson
+second-server:
+  url: www.second-server.com/packages/update
+  apiKey: bXkgc3VwZXIgc2VjcmV0IGFwaSBrZXk=
+
+spring.jpa.hibernate.ddl-auto: update
+
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
+      hibernate: error
