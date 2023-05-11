@@ -28,12 +28,13 @@ public class CategoryService {
 		this.categoryRepository = categoryRepository;
 	}
 
-	public Category saveCategory(Category category) {
+	public Category saveCategory(Category category, String requestIp) {
+		category.setIp(requestIp);
 		return (Category) categoryRepository.save(category);
 	}
 	
 	@Transactional
-	public Category updateCategory(Category category) {
+	public Category updateCategory(Category category, String requestIp) {
 		if (category.getCategoryId() == null) {
 			throw new CouzyForumException("Category ID is required when updating a category.");
 		}
@@ -41,7 +42,7 @@ public class CategoryService {
 		
 		oldCategory.ifPresentOrElse(
 			(oldCat) -> { categoryRepository.update(category.getTitle(),
-					category.getDescription(), category.getIp(), getDateTimeNow(),
+					category.getDescription(), requestIp, getDateTimeNow(),
 					oldCat.getCategoryId());
 			category.setUpdatedDateTime(getDateTimeNow());
 			category.setCreatedDateTime(oldCat.getCreatedDateTime());

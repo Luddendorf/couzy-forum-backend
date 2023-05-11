@@ -1,5 +1,9 @@
 package com.breeze.summer.controllers;
 
+import static com.breeze.summer.utils.ControllerUtil.getIpFromRequest;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,14 +26,14 @@ public class CategoryController {
 		this.categoryService = categoryService;
 	}
 	
-    @PostMapping(value="save")
-    public Category createCategory(@RequestBody Category category) {
-    	return categoryService.saveCategory(category);
+    @PostMapping("save")
+    public Category createCategory(HttpServletRequest request, @RequestBody Category category) {
+    	return categoryService.saveCategory(category, getIpFromRequest(request));
     }
     
     @PostMapping("update")
-    public Category updateCategory(@RequestBody Category category) {
-    	return categoryService.updateCategory(category);
+    public Category updateCategory(HttpServletRequest request, @RequestBody Category category) {
+    	return categoryService.updateCategory(category, getIpFromRequest(request));
     }
 }
 
