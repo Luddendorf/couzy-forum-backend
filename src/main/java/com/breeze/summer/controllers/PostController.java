@@ -31,4 +31,11 @@ public class PostController {
     public Post addPost(HttpServletRequest request, @RequestBody Post newPost) {
     	return postService.addPost(newPost, getIpFromRequest(request));
     }
+    
+    @PostMapping("update")
+    public Post updatePost(HttpServletRequest request, @RequestBody Post updatedPost) {
+    	return postService.updatePost(updatedPost, getIpFromRequest(request));
+    }
+    
+    
 }

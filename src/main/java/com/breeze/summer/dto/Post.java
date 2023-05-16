@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.persistence.PreUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+@Entity
 public class Post {
 
 	@Id                     
@@ -30,6 +33,7 @@ public class Post {
     private String ip;
     
 	@CreatedDate
+	@Column(name="created_datetime", updatable=false)
 	private ZonedDateTime createdDatetime;
 	
 	@LastModifiedDate
@@ -156,6 +160,7 @@ public class Post {
 	@PrePersist
 	protected void onCreate() {
 	  createdDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
+	  updatedDatetime = createdDatetime;
 	}
 
 	@PreUpdate

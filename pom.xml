@@ -15,7 +15,7 @@
 	<description>Simple Todo application using Spring Boot</description>
 
 	<properties>
-		<java.version>20</java.version>
+		<java.version>13</java.version>
 	</properties>
 
 	<dependencies>
