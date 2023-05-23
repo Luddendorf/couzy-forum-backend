@@ -16,9 +16,26 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 //	@Query("UPDATE Category category SET category.title = ?1, category.description = ?2, "
 //			+ "category.ip = ?3, category.updatedDatetime = ?4 WHERE category.categoryId = ?5")
 //	void update(String title);
+
+	@Query(value = "SELECT * FROM post WHERE updated_datetime > ?1 AND updated_datetime <= ?2 "
+			+ "AND title = ?3 AND user_id = ?4",
+		   countQuery = "SELECT COUNT(id) FROM post WHERE updated_datetime > ?1 AND updated_datetime <= ?2 "
+			+ "AND title = ?3 AND user_id = ?4", nativeQuery = true)
+	List<Post> findAllByFilterWithTitleAndUserId(ZonedDateTime fromDatetime, ZonedDateTime toDatetime,
+		String title, Long userId, Pageable pageable);
 	
-	@Query("SELECT Post post WHERE post.updatedDatetime > ?1, post.updatedDatetime <= ?2, "
-	+ "OR post.title = ?3 OR post.userId = ?4 \n#pageable\n")
-	List<Post> findAllByFilter(ZonedDateTime fromDatetime, ZonedDateTime toDatetime,
-			String title, Long userId, Pageable pageable);
+	@Query(value = "SELECT * FROM post WHERE updated_datetime > ?1 AND updated_datetime <= ?2 "
+			+ "AND title LIKE CONCAT('%',?3,'%')",
+		   countQuery = "SELECT COUNT(id) FROM post WHERE updated_datetime > ?1 AND updated_datetime <= ?2 "
+			+ "AND title LIKE CONCAT('%',?3,'%')",
+			nativeQuery = true)
+	List<Post> findAllByFilterWithTitle(ZonedDateTime fromDatetime, ZonedDateTime toDatetime,
+		String title, Pageable pageable);
+	
+	@Query(value = "SELECT * FROM post WHERE updated_datetime > ?1 AND updated_datetime <= ?2 "
+			+ "AND user_id = ?4",
+		   countQuery = "SELECT COUNT(id) FROM post WHERE updated_datetime > ?1 AND updated_datetime <= ?2 "
+			+ "AND user_id = ?4", nativeQuery = true)
+	List<Post> findAllByFilterWithUserId(ZonedDateTime fromDatetime, ZonedDateTime toDatetime,
+		Long userId, Pageable pageable);
 }
