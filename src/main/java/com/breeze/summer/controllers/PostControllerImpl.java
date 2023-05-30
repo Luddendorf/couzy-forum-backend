@@ -15,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.breeze.summer.controllers.interfaces.PostController;
 import com.breeze.summer.dto.Category;
 import com.breeze.summer.dto.FilterPost;
 import com.breeze.summer.dto.Post;
@@ -24,13 +25,13 @@ import com.breeze.summer.utils.exception.CouzyForumException;
 
 @RestController
 @RequestMapping("post")
-public class PostController {
+public class PostControllerImpl implements PostController {
 
 	@Autowired
 	private final PostService postService;
 	
 	@Autowired
-	public PostController(PostService postService) {
+	public PostControllerImpl(PostService postService) {
 		this.postService = postService;
 	}
 	
@@ -47,6 +48,7 @@ public class PostController {
     @PostMapping("search")
     public List<Post> findPostsByFilter(@RequestBody FilterPost filter) {
     	return postService.findPostsByFilter(filter);
-
     }
+    
+    
 }

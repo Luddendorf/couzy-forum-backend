@@ -57,3 +57,11 @@ logging:
       springframework:
         web: debug
       hibernate: error
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html # custom swagger-ui path
+  api-docs:
+    path: /v3/api-docs.yaml
+  server:
+    url: http://localhost:8080
