@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import com.breeze.summer.controllers.interfaces.PostController;
 import com.breeze.summer.dto.Category;
 import com.breeze.summer.dto.FilterPost;
+import com.breeze.summer.dto.FoundPosts;
 import com.breeze.summer.dto.Post;
 import com.breeze.summer.services.CategoryService;
 import com.breeze.summer.services.PostService;
@@ -46,7 +47,7 @@ public class PostControllerImpl implements PostController {
     }
     
     @PostMapping("search")
-    public List<Post> findPostsByFilter(@RequestBody FilterPost filter) {
+    public FoundPosts findPostsByFilter(@RequestBody FilterPost filter) {
     	return postService.findPostsByFilter(filter);
     }
     

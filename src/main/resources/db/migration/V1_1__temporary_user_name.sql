@@ -1,0 +1,1 @@
+ALTER TABLE post ADD COLUMN user_name VARCHAR(300) NULL;

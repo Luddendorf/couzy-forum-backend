@@ -38,7 +38,7 @@ flyway:
   password: root
 #  locations: db/migration
 server:
-  port : 8083
+  port: 8083
   
 school:
   favorite-teacher:
