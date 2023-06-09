@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.breeze.summer.dto.FilterPost;
+import com.breeze.summer.dto.FoundPosts;
 import com.breeze.summer.dto.Post;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,8 +58,8 @@ public interface PostController {
 		value = {
 		  @ApiResponse(
 			responseCode = "200",
-			description = "Found list of posts that satisfy given parameters",
-			content = @Content(array = @ArraySchema(schema = @Schema(implementation = Post.class)))
+			description = "Found list of posts that satisfy given parameters and total count",
+			content = @Content(schema = @Schema(implementation = FoundPosts.class))
 		  ),
 		  @ApiResponse(
 			responseCode = "404",
@@ -69,5 +70,5 @@ public interface PostController {
 			description = "Failed to return list of posts to user"
 		  )
 		})
-	List<Post> findPostsByFilter(FilterPost filter);
+	FoundPosts findPostsByFilter(FilterPost filter);
 }

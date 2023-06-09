@@ -3,13 +3,17 @@ package com.breeze.summer.dto;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
@@ -23,14 +27,20 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long postId;
 	private Long userId;
+	private String userName;
     private String title;
     private String text;
-    private Long parentPostId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post parentPost;
     private Long subcategoryId;
     private Boolean isPoll;
     private Byte state;
     private Byte source;
     private String ip;
+    
+    @OneToMany(mappedBy = "parentPost")
+    private List<Post> comments;
     
 	@CreatedDate
 	@Column(name="created_datetime", updatable=false)
@@ -41,25 +51,25 @@ public class Post {
 	
 	public Post() {}
 	
-	public Post(Long postId, Long userId, String title, String text, Long parentPostId,
-			Long subcategoryId, Boolean isPoll, Byte state, Byte source, String ip,
-			ZonedDateTime createdDatetime, ZonedDateTime updatedDatetime) {
+	public Post(Long postId, Long userId, String userName, String title, String text, Post parentPost, Long subcategoryId,
+			Boolean isPoll, Byte state, Byte source, String ip, List<Post> comments, ZonedDateTime createdDatetime,
+			ZonedDateTime updatedDatetime) {
 		super();
 		this.postId = postId;
 		this.userId = userId;
+		this.userName = userName;
 		this.title = title;
 		this.text = text;
-		this.parentPostId = parentPostId;
+		this.parentPost = parentPost;
 		this.subcategoryId = subcategoryId;
 		this.isPoll = isPoll;
 		this.state = state;
 		this.source = source;
 		this.ip = ip;
+		this.comments = comments;
 		this.createdDatetime = createdDatetime;
 		this.updatedDatetime = updatedDatetime;
 	}
-
-    
 
 	public Long getPostId() {
 		return postId;
@@ -75,6 +85,14 @@ public class Post {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getTitle() {
@@ -93,12 +111,12 @@ public class Post {
 		this.text = text;
 	}
 
-	public Long getParentPostId() {
-		return parentPostId;
+	public Post getParentPost() {
+		return parentPost;
 	}
 
-	public void setParentPostId(Long parentPostId) {
-		this.parentPostId = parentPostId;
+	public void setParentPost(Post parentPost) {
+		this.parentPost = parentPost;
 	}
 
 	public Long getSubcategoryId() {
@@ -156,6 +174,14 @@ public class Post {
 	public void setUpdatedDatetime(ZonedDateTime updatedDatetime) {
 		this.updatedDatetime = updatedDatetime;
 	}
+	
+	public List<Post> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Post> comments) {
+		this.comments = comments;
+	}
 
 	@PrePersist
 	protected void onCreate() {
@@ -167,13 +193,11 @@ public class Post {
 	protected void onUpdate() {
 	  updatedDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(createdDatetime, ip, isPoll, parentPostId, postId, source, state, subcategoryId, text,
-				title, updatedDatetime, userId);
+		return Objects.hash(comments, createdDatetime, ip, isPoll, parentPost, postId, source, state, subcategoryId,
+				text, title, updatedDatetime, userId);
 	}
 
 	@Override
@@ -185,19 +209,28 @@ public class Post {
 		if (getClass() != obj.getClass())
 			return false;
 		Post other = (Post) obj;
-		return Objects.equals(createdDatetime, other.createdDatetime) && Objects.equals(ip, other.ip)
-				&& Objects.equals(isPoll, other.isPoll) && Objects.equals(parentPostId, other.parentPostId)
-				&& Objects.equals(postId, other.postId) && Objects.equals(source, other.source)
-				&& Objects.equals(state, other.state) && Objects.equals(subcategoryId, other.subcategoryId)
-				&& Objects.equals(text, other.text) && Objects.equals(title, other.title)
-				&& Objects.equals(updatedDatetime, other.updatedDatetime) && Objects.equals(userId, other.userId);
+		return Objects.equals(comments, other.comments) && Objects.equals(createdDatetime, other.createdDatetime)
+				&& Objects.equals(ip, other.ip) && Objects.equals(isPoll, other.isPoll)
+				&& Objects.equals(parentPost, other.parentPost) && Objects.equals(postId, other.postId)
+				&& Objects.equals(source, other.source) && Objects.equals(state, other.state)
+				&& Objects.equals(subcategoryId, other.subcategoryId) && Objects.equals(text, other.text)
+				&& Objects.equals(title, other.title) && Objects.equals(updatedDatetime, other.updatedDatetime)
+				&& Objects.equals(userId, other.userId);
 	}
 
 	@Override
 	public String toString() {
-		return "Post [postId=" + postId + ", userId=" + userId + ", title=" + title + ", text=" + text
-				+ ", parentPostId=" + parentPostId + ", subcategoryId=" + subcategoryId + ", isPoll=" + isPoll
-				+ ", state=" + state + ", source=" + source + ", ip=" + ip + ", createdDatetime=" + createdDatetime
-				+ ", updatedDatetime=" + updatedDatetime + "]";
+		return "Post [postId=" + postId + ", userId=" + userId 
+		+ ", userName=" + userName
+		+ ", title=" + title + ", text=" + text + ", parentPost="
+				+ parentPost + ", subcategoryId=" + subcategoryId + ", isPoll=" + isPoll + ", state=" + state
+				+ ", source=" + source + ", ip=" + ip + ", comments=" + comments + ", createdDatetime="
+				+ createdDatetime + ", updatedDatetime=" + updatedDatetime + "]";
 	}
+	
+    public Post addComment(Post comment) {
+        this.comments.add(comment);
+        comment.setParentPost(this);
+        return comment;
+    }
 }
