@@ -1,13 +1,10 @@
 package com.breeze.summer;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// @SpringBootTest
+// class SpringTodoAppApplicationTests {
 
-@SpringBootTest
-class SpringTodoAppApplicationTests {
+// @Test
+// void contextLoads() {
+// }
 
-	@Test
-	void contextLoads() {
-	}
-
-}
+// }

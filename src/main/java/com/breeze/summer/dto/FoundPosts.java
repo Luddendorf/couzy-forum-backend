@@ -5,7 +5,7 @@ import java.util.List;
 public class FoundPosts {
 	private List<Post> foundPosts;
 	private Long totalPosts;
-	
+
 	public FoundPosts() {
 		super();
 	}
