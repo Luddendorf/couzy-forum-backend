@@ -15,7 +15,7 @@ import java.util.List;
 import static com.breeze.summer.utils.CriteriaUtil.createPostSearchCriteria;
 import static com.breeze.summer.utils.CriteriaUtil.createPostTotalCountCriteria;
 
-@Slf4j
+// @Slf4j
 @Service
 public class PostService {
 	@Autowired
