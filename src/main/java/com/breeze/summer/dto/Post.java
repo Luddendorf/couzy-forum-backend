@@ -1,10 +1,7 @@
 package com.breeze.summer.dto;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,42 +14,47 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Post {
 
-	@Id                     
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long postId;
 	private Long userId;
 	private String userName;
-    private String title;
-    private String text;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Post parentPost;
-    private Long subcategoryId;
-    private Boolean isPoll;
-    private Byte state;
-    private Byte source;
-    private String ip;
-    
-    @OneToMany(mappedBy = "parentPost")
-    private List<Post> comments;
-    
+	private String title;
+	private String text;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Post parentPost;
+	private Long subcategoryId;
+	private Boolean isPoll;
+	private Integer state;
+	private Integer source;
+	private String ip;
+
+	@OneToMany(mappedBy = "parentPost")
+	private List<Post> comments;
+
 	@CreatedDate
-	@Column(name="created_datetime", updatable=false)
+	@Column(name = "created_datetime", updatable = false)
 	private ZonedDateTime createdDatetime;
-	
+
 	@LastModifiedDate
 	private ZonedDateTime updatedDatetime;
-	
-	public Post() {}
-	
-	public Post(Long postId, Long userId, String userName, String title, String text, Post parentPost, Long subcategoryId,
-			Boolean isPoll, Byte state, Byte source, String ip, List<Post> comments, ZonedDateTime createdDatetime,
+
+	public Post() {
+	}
+
+	public Post(Long postId, Long userId, String userName, String title, String text, Post parentPost,
+			Long subcategoryId,
+			Boolean isPoll, Integer state, Integer source, String ip, List<Post> comments, ZonedDateTime createdDatetime,
 			ZonedDateTime updatedDatetime) {
 		super();
 		this.postId = postId;
@@ -135,19 +137,19 @@ public class Post {
 		this.isPoll = isPoll;
 	}
 
-	public Byte getState() {
+	public Integer getState() {
 		return state;
 	}
 
-	public void setState(Byte state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 
-	public Byte getSource() {
+	public Integer getSource() {
 		return source;
 	}
 
-	public void setSource(Byte source) {
+	public void setSource(Integer source) {
 		this.source = source;
 	}
 
@@ -174,7 +176,7 @@ public class Post {
 	public void setUpdatedDatetime(ZonedDateTime updatedDatetime) {
 		this.updatedDatetime = updatedDatetime;
 	}
-	
+
 	public List<Post> getComments() {
 		return comments;
 	}
@@ -185,13 +187,13 @@ public class Post {
 
 	@PrePersist
 	protected void onCreate() {
-	  createdDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
-	  updatedDatetime = createdDatetime;
+		createdDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
+		updatedDatetime = createdDatetime;
 	}
 
 	@PreUpdate
 	protected void onUpdate() {
-	  updatedDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
+		updatedDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
 	}
 
 	@Override
@@ -220,17 +222,15 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "Post [postId=" + postId + ", userId=" + userId 
-		+ ", userName=" + userName
-		+ ", title=" + title + ", text=" + text + ", parentPost="
-				+ parentPost + ", subcategoryId=" + subcategoryId + ", isPoll=" + isPoll + ", state=" + state
-				+ ", source=" + source + ", ip=" + ip + ", comments=" + comments + ", createdDatetime="
+		return "Post [postId=" + postId + ", userId=" + userId + ", userName=" + userName + ", title=" + title + ", text="
+				+ text + ", parentPost=" + parentPost + ", subcategoryId=" + subcategoryId + ", isPoll=" + isPoll + ", state="
+				+ state + ", source=" + source + ", ip=" + ip + ", comments=" + comments + ", createdDatetime="
 				+ createdDatetime + ", updatedDatetime=" + updatedDatetime + "]";
 	}
-	
-    public Post addComment(Post comment) {
-        this.comments.add(comment);
-        comment.setParentPost(this);
-        return comment;
-    }
+
+	public Post addComment(Post comment) {
+		this.comments.add(comment);
+		comment.setParentPost(this);
+		return comment;
+	}
 }
