@@ -1,34 +1,19 @@
 package com.breeze.summer.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class FoundPosts {
 	private List<Post> foundPosts;
 	private Long totalPosts;
-
-	public FoundPosts() {
-		super();
-	}
-
-	public FoundPosts(List<Post> foundPosts, Long totalPosts) {
-		super();
-		this.foundPosts = foundPosts;
-		this.totalPosts = totalPosts;
-	}
-
-	public List<Post> getFoundPosts() {
-		return foundPosts;
-	}
-
-	public void setFoundPosts(List<Post> foundPosts) {
-		this.foundPosts = foundPosts;
-	}
-
-	public Long getTotalPosts() {
-		return totalPosts;
-	}
-
-	public void setTotalPosts(Long totalPosts) {
-		this.totalPosts = totalPosts;
-	}
 }

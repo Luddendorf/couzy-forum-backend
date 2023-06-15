@@ -4,6 +4,7 @@ import com.breeze.summer.dto.FilterPost;
 import com.breeze.summer.dto.FoundPosts;
 import com.breeze.summer.dto.Post;
 import com.breeze.summer.repositories.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,13 @@ import static com.breeze.summer.utils.CriteriaUtil.createPostTotalCountCriteria;
 
 // @Slf4j
 @Service
+@RequiredArgsConstructor
 public class PostService {
 	@Autowired
 	private final PostRepository postRepository;
 
 	@Autowired
 	private final EntityManager entityManager;
-
-	@Autowired
-	public PostService(PostRepository postRepository, EntityManager entityManager) {
-		this.postRepository = postRepository;
-		this.entityManager = entityManager;
-	}
 
 	public Post addPost(Post newPost, String authorIp) {
 		newPost.setIp(authorIp);
