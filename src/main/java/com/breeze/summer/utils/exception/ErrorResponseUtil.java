@@ -36,7 +36,7 @@ public class ErrorResponseUtil {
 
   public static ResponseEntity<ErrorResponse> internalServerErrorResponse() {
     return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected internal seriver error"
-    + " when processing the request", "INTERNAL_SERVER_ERROR");
+        + " when processing the request", "INTERNAL_SERVER_ERROR");
   }
 
   public static ResponseEntity<ErrorResponse> serviceUnavailableResponse() {
