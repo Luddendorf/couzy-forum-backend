@@ -1,48 +1,76 @@
 package com.breeze.summer.utils.exception;
 
-import com.breeze.summer.dto.exception.ErrorResponse;
-import com.breeze.summer.dto.exception.NotFoundException;
-import com.breeze.summer.dto.exception.ServiceUnavailableException;
 import com.breeze.summer.utils.log.Loggable;
 import org.slf4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import static com.breeze.summer.utils.exception.ErrorResponseUtil.badRequestResponse;
-import static com.breeze.summer.utils.exception.ErrorResponseUtil.integrationErrorResponse;
-import static com.breeze.summer.utils.exception.ErrorResponseUtil.internalServerErrorResponse;
-import static com.breeze.summer.utils.exception.ErrorResponseUtil.notFoundResponse;
 
-@ControllerAdvice
+@RestControllerAdvice
 @Loggable
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   private Logger logger;
+  /*
+   * @ExceptionHandler({ RuntimeException.class })
+   * public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException
+   * e) {
+   * log(e);
+   * return internalServerErrorResponse();
+   * }
+   * 
+   * @ExceptionHandler({ NotFoundException.class })
+   * public ResponseEntity<ErrorResponse> handleNotFoundException(Exception e) {
+   * log(e);
+   * return notFoundResponse();
+   * }
+   * 
+   * @ExceptionHandler({ ServiceUnavailableException.class })
+   * public ResponseEntity<ErrorResponse>
+   * handleServiceUnavailableException(ServiceUnavailableException e) {
+   * log(e);
+   * return integrationErrorResponse(e.getMessage());
+   * }
+   */
 
-  @ExceptionHandler({ RuntimeException.class })
-  public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
-    log(e);
-    return internalServerErrorResponse();
-  }
+  @Override
+  @ResponseStatus
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers,
+      HttpStatus status, WebRequest request) {
+    /*
+     * for (ObjectError methodArgumentNotValidException :
+     * ex.getBindingResult().getAllErrors()){
+     * localerrorEntitiesList.add(new
+     * ErrorEntity(methodArgumentNotValidException.getDefaultMessage(),
+     * methodArgumentNotValidException.getCode()));
+     * }
+     */
 
-  @ExceptionHandler({ NotFoundException.class })
-  public ResponseEntity<ErrorResponse> handleNotFoundException(Exception e) {
-    log(e);
-    return notFoundResponse();
-  }
+    try {
+      log(e);
+      return badRequestResponse();
+    } catch (Exception ex) {
+      log(ex);
+      return badRequestResponse();
+    }
 
-  @ExceptionHandler({ ServiceUnavailableException.class })
-  public ResponseEntity<ErrorResponse> handleServiceUnavailableException(ServiceUnavailableException e) {
-    log(e);
-    return integrationErrorResponse(e.getMessage());
   }
-
-  @ExceptionHandler({ MethodArgumentNotValidException.class })
-  public ResponseEntity<ErrorResponse> validationException(MethodArgumentNotValidException e) {
-    log(e);
-    return badRequestResponse();
-  }
+  /*
+   * @Override
+   * 
+   * @ExceptionHandler({ MethodArgumentNotValidException.class })
+   * public ResponseEntity<Object>
+   * validationException(MethodArgumentNotValidException e) {
+   * log(e);
+   * return badRequestResponse();
+   * }
+   */
 
   private void log(Exception e) {
     logger.warn("Exception while processing REST call: {} "
