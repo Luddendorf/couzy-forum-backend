@@ -154,4 +154,8 @@ public class CollectionsTest {
         break;
     }
   }
+
+  private static String makeGreeting(String name) {
+    return "Hello, dear " + name;
+  }
 }
