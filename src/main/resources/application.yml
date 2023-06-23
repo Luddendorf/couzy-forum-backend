@@ -33,6 +33,32 @@ spring:
 #            client-id: some
 #            client-secret: some-secret
 #            scope: email, public_profile
+  # Kafka
+  kafka:
+    security:
+      protocol: SSL
+    comsumer:
+      bootstrap-servers: my-broker1.com:9094,my-broker2.com:9094
+      group-id: couzy-forum-dev
+      auto-offset-reset: earliest
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.breeze.summer.*
+          deserializer:
+            key:
+              delegate:
+                class: org.apache.kafka.common.serialization.StringDeserializer
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer    
+    producer:
+      bootstrap-server: my-broker1.com:9094,my-broker2.com:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 flyway:
   url: jdbc:mysql://localhost:3306/couzy_forum?serverTimezone=UTC&useSSL=false
   user: root
@@ -40,6 +66,7 @@ flyway:
 #  locations: db/migration
 server:
   port: 8083
+
   
 school:
   favorite-teacher:
@@ -58,7 +85,8 @@ logging:
       springframework:
         web: debug
       hibernate: error
-
+deployment:
+  env: dev
 springdoc:
   swagger-ui:
     path: /swagger-ui.html # custom swagger-ui path
@@ -66,3 +94,6 @@ springdoc:
     path: /v3/api-docs.yaml
   server:
     url: http://localhost:8080
+
+facebook:
+  topic-statistics: facebook-stats
