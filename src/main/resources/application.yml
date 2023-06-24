@@ -97,3 +97,4 @@ springdoc:
 
 facebook:
   topic-statistics: facebook-stats
+  topic-categories: facebook-categories
