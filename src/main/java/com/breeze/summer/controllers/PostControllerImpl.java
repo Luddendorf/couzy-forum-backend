@@ -6,6 +6,7 @@ import com.breeze.summer.dto.FoundPosts;
 import com.breeze.summer.dto.Post;
 import com.breeze.summer.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class PostControllerImpl implements PostController {
     }
 
     @PostMapping(value = "new")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public Post addPost(HttpServletRequest request, @RequestBody Post newPost) {
         return postService.addPost(newPost, getIpFromRequest(request));
     }
@@ -41,5 +43,4 @@ public class PostControllerImpl implements PostController {
     public FoundPosts findPostsByFilter(@RequestBody FilterPost filter) {
         return postService.findPostsByFilter(filter);
     }
-
 }

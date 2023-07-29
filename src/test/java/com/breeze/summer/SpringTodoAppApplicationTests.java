@@ -1,10 +1,25 @@
 package com.breeze.summer;
 
-// @SpringBootTest
-// class SpringTodoAppApplicationTests {
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-// @Test
-// void contextLoads() {
-// }
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// }
+@SpringBootTest
+class SpringTodoAppApplicationTests {
+  // Company companyGood;
+  // Company compayWithProblems;
+
+  // @Disabled
+  @Test
+  void contextLoads() {
+
+  }
+
+  @Test
+  void dateTimeFormattingTest() {
+
+    assertEquals("", "");
+  }
+
+}

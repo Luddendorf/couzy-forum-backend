@@ -1,23 +1,26 @@
 package com.breeze.summer;
 
-// import com.breeze.summer.filters.JwtRequestFilter;
-//import com.breeze.summer.services.oauth2.OAuth2FailureHandler;
-//import com.breeze.summer.services.oauth2.OAuth2SuccessHandler;
-// import com.breeze.summer.services.oauth2.OAuth2UserService;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.breeze.summer.filters.JwtRequestFilter;
+import com.breeze.summer.services.oauth2.OAuth2FailureHandler;
+import com.breeze.summer.services.oauth2.OAuth2SuccessHandler;
+import com.breeze.summer.services.oauth2.OAuth2UserService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// @EnableWebSecurity
-/*
+//@EnableWebSecurity
+// @EnableGlobalMethodSecurity(
+// prePostEnabled = true
+// // securedEnabled = true,
+// // jsr250Enabled = true
+// )
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     // Configuring Authentication
@@ -27,7 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final OAuth2FailureHandler oAuth2FailureHandler;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
-    public SecurityConfiguration(UserDetailsService authUserDetailsService, OAuth2UserService oAuth2UserService, JwtRequestFilter jwtRequestFilter, OAuth2FailureHandler oAuth2FailureHandler, OAuth2SuccessHandler oAuth2SuccessHandler) {
+    public SecurityConfiguration(UserDetailsService authUserDetailsService, OAuth2UserService oAuth2UserService,
+            JwtRequestFilter jwtRequestFilter, OAuth2FailureHandler oAuth2FailureHandler,
+            OAuth2SuccessHandler oAuth2SuccessHandler) {
         this.authUserDetailsService = authUserDetailsService;
         this.oAuth2UserService = oAuth2UserService;
         this.jwtRequestFilter = jwtRequestFilter;
@@ -41,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
@@ -51,28 +56,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(new AuthEntryPoint())
-                    .and()
+                .authenticationEntryPoint(new AuthEntryPoint())
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // telling spring security to not create a session
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // telling spring security to not create a
+                                                                        // session
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/users/**").hasAnyRole("USER", "ADMIN")
-                    .antMatchers("/authenticate").permitAll()
-                    .antMatchers("/") .permitAll()
-                    .anyRequest()
-                        .authenticated()
-                    .and()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/users/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .oauth2Login()
-                    .userInfoEndpoint()
-                    .userService(oAuth2UserService)
-                    .and()
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+                .and()
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler);
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);   // telling spring security to make sure that our jwtreqfilter is called before the username and pwd auth filter is called
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // telling spring security
+                                                                                            // to make sure that our
+                                                                                            // jwtreqfilter is called
+                                                                                            // before the username and
+                                                                                            // pwd auth filter is called
     }
 
     @Bean
@@ -80,6 +91,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
-    
-}*/
+
+}

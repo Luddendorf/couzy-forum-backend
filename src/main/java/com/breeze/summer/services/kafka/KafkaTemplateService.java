@@ -1,6 +1,5 @@
 package com.breeze.summer.services.kafka;
 
-import brave.Tracer;
 import com.breeze.summer.utils.log.Loggable;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -22,16 +21,15 @@ public class KafkaTemplateService<T> {
   @Autowired
   private KafkaTemplate<String, T> template;
 
-  @Autowired
-  private Tracer tracer;
+  // @Autowired
+  // private Tracer tracer;
 
   public KafkaTemplateService() {
   }
 
   public void sendKafkaMessage(String topicName, T messageObject) {
-
-    byte[] traceIdBytes = String.valueOf(this.tracer.currentSpan().context()
-        .traceId()).getBytes(StandardCharsets.UTF_8);
+    // this.tracer.currentSpan().context().traceId();
+    byte[] traceIdBytes = String.valueOf("hello").getBytes(StandardCharsets.UTF_8);
 
     ProducerRecord<String, T> record = new ProducerRecord(topicName, messageObject);
     record.headers().add(TRACE_ID_HEADER_NAME, traceIdBytes);
@@ -43,7 +41,7 @@ public class KafkaTemplateService<T> {
       }
 
       public void onFailure(Throwable ex) {
-         logger.error("Error when sending Kafka message", ex);
+        logger.error("Error when sending Kafka message", ex);
       }
     });
 

@@ -1,5 +1,5 @@
 package com.breeze.summer.services.oauth2;
-/*
+
 import com.breeze.summer.utils.JwtUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 @Component
@@ -21,18 +22,19 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
         String jwtToken = generateJWTFromAuthentication(authentication);
         String redirectURL = "/";
         String targetURL = UriComponentsBuilder
-                                .fromUriString(redirectURL)
-                                .queryParam("token", jwtToken)
-                                .build().toUriString();
+                .fromUriString(redirectURL)
+                .queryParam("token", jwtToken)
+                .build().toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetURL);
     }
 
-    private String generateJWTFromAuthentication(Authentication authentication){
+    private String generateJWTFromAuthentication(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return jwtUtil.generateToken(userDetails);
     }
-}*/
+}

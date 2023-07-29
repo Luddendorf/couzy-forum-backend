@@ -1,13 +1,17 @@
 package com.breeze.summer.models;
 
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-/*
+
 public class AuthUserDetails implements OAuth2User, UserDetails {
     private Long id;
     private final String username;
@@ -16,7 +20,7 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
     private final List<GrantedAuthority> authority;
     private Map<String, Object> attributes;
 
-    public AuthUserDetails(User user){
+    public AuthUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.active = user.isActive();
@@ -78,15 +82,13 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
     }
 
     public static AuthUserDetails create(User user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new AuthUserDetails(
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                authorities
-        );
+                authorities);
     }
 
     public static AuthUserDetails create(User user, Map<String, Object> attributes) {
@@ -99,4 +101,4 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
     public String getName() {
         return null;
     }
-}*/
+}

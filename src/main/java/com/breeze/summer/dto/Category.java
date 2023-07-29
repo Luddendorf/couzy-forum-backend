@@ -1,8 +1,7 @@
 package com.breeze.summer.dto;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,23 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 public class Category {
-	
-	@Id                     
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long categoryId;
-	
+
 	private String title;
 	private String description;
 	private String ip;
-	
+
 	@CreatedDate
 	private ZonedDateTime createdDatetime;
-	
+
 	@LastModifiedDate
 	private ZonedDateTime updatedDatetime;
 
@@ -45,7 +45,6 @@ public class Category {
 		this.createdDatetime = createdDatetime;
 		this.updatedDatetime = updatedDatetime;
 	}
-
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -94,17 +93,16 @@ public class Category {
 	public void setUpdatedDateTime(ZonedDateTime updatedDateTime) {
 		this.updatedDatetime = updatedDateTime;
 	}
-	
+
 	@PrePersist
 	protected void onCreate() {
-	  createdDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
+		createdDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
 	}
 
 	@PreUpdate
 	protected void onUpdate() {
-	  updatedDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
+		updatedDatetime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Vilnius"));
 	}
-
 
 	@Override
 	public String toString() {
@@ -112,4 +110,3 @@ public class Category {
 				+ ", createdDateTime=" + createdDatetime + ", updatedDateTime=" + updatedDatetime + "]";
 	}
 }
-

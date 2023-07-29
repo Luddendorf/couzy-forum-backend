@@ -66,6 +66,8 @@ flyway:
 #  locations: db/migration
 server:
   port: 8083
+  servlet:
+    context-path: /
 
   
 school:

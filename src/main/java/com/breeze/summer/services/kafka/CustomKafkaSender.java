@@ -3,10 +3,12 @@ package com.breeze.summer.services.kafka;
 import com.breeze.summer.dto.Category;
 import com.breeze.summer.dto.Post;
 import com.breeze.summer.utils.log.Loggable;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 
 @Loggable
+@RequiredArgsConstructor
 public class CustomKafkaSender implements KafkaSender {
 
   @Value("${facebook.topic-statistics}")
