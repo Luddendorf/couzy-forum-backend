@@ -1,6 +1,7 @@
 package statics.utils;
 
 import com.breeze.summer.dto.FilterPost;
+import com.breeze.summer.dto.Post;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,8 +45,24 @@ public class ResourceReaderUtil {
     });
   }
 
+  public static Post deserializePost(String json)
+      throws JsonProcessingException {
+    return objectMapper.readValue(json, new TypeReference<>() {
+    });
+  }
+
   public static FilterPost getFilterPost() throws IOException {
     return deserializeFilterPost(
         readFromFileToString("/post/post-filter.json"));
+  }
+
+  public static FilterPost getFilterPostWithUserName() throws IOException {
+    return deserializeFilterPost(
+        readFromFileToString("/post/post-filter-user-name.json"));
+  }
+
+  public static Post getPostSimple() throws IOException {
+    return deserializePost(
+        readFromFileToString("/post/entity/post-entity.json"));
   }
 }

@@ -1,0 +1,11 @@
+{
+    "fromDatetime": "2020-12-31T01:30+03:00",
+    "toDatetime": "2020-12-31T01:30+03:00",
+    "title": null,
+    "userId": "2323",
+    "userName": "Steven McDonald",
+    "currentPageNumber": 0,
+    "postsPerPage": 10,
+    "sortBy": "userName",
+    "sortDirection": "ASC"
+}

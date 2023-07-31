@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.breeze.summer.utils.CriteriaUtil.createPostSearchCriteria;
 import static com.breeze.summer.utils.CriteriaUtil.createPostTotalCountCriteria;
@@ -58,6 +59,11 @@ public class PostService {
 	public Long findTotalPosts(FilterPost filter) {
 		return entityManager.createQuery(createPostTotalCountCriteria(filter, entityManager))
 				.getSingleResult();
+	}
+
+	public Post findByUserName(String userName) {
+		Optional<Post> possiblePost = postRepository.findTopByUserName(userName);
+		return possiblePost.get();
 	}
 	/*
 	 * public List<Post> findPostsByFilter(FilterPost filter) throws
