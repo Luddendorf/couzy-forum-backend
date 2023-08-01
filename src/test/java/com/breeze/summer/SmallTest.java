@@ -2,10 +2,6 @@ package com.breeze.summer;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.format.DateTimeFormatter;
-
-import static com.breeze.summer.utils.TimeUtilsService.getDateTimeNow;
-
 public class SmallTest extends CollectionsTest {
   // public String name = "Joe";
   // public Integer price = 50;
@@ -22,11 +18,12 @@ public class SmallTest extends CollectionsTest {
   public void arrayListTest() {
     var a = 5F;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss Z");
+    // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy -
+    // HH:mm:ss Z");
 
-    String dateTime = getDateTimeNow().format(formatter);
+    // String dateTime = getDateTimeNow().format(formatter);
 
-    System.out.println("Now is: " + dateTime);
+    // System.out.println("Now is: " + dateTime);
 
     Double result = Math.sqrt(9);
 

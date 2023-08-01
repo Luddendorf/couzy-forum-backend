@@ -1,6 +1,7 @@
 package statics.utils;
 
 import com.breeze.summer.dto.FilterPost;
+import com.breeze.summer.dto.FoundPosts;
 import com.breeze.summer.dto.Post;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,7 +39,6 @@ public class ResourceReaderUtil {
     return new String(byteArray);
   }
 
-  // posts
   public static FilterPost deserializeFilterPost(String json)
       throws JsonProcessingException {
     return objectMapper.readValue(json, new TypeReference<>() {
@@ -51,18 +51,37 @@ public class ResourceReaderUtil {
     });
   }
 
+  public static FoundPosts deserializeFoundPosts(String json)
+      throws JsonProcessingException {
+    return objectMapper.readValue(json, new TypeReference<>() {
+    });
+  }
+
+  // post request payload:
   public static FilterPost getFilterPost() throws IOException {
     return deserializeFilterPost(
-        readFromFileToString("/post/post-filter.json"));
+        readFromFileToString("/post/filter/post-filter.json"));
   }
 
   public static FilterPost getFilterPostWithUserName() throws IOException {
     return deserializeFilterPost(
-        readFromFileToString("/post/post-filter-user-name.json"));
+        readFromFileToString("/post/filter/post-filter-user-name.json"));
   }
 
+  public static FilterPost getFilterPostMaxParams() throws IOException {
+    return deserializeFilterPost(
+        readFromFileToString("/post/filter/max-parameters-filter.json"));
+  }
+
+  // post entity:
   public static Post getPostSimple() throws IOException {
     return deserializePost(
         readFromFileToString("/post/entity/post-entity.json"));
+  }
+
+  // found posts dto:
+  public static FoundPosts getFoundPosts() throws IOException {
+    return deserializeFoundPosts(
+        readFromFileToString("/post/foundposts/found-posts-response.json"));
   }
 }

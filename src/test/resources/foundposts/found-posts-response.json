@@ -1,0 +1,21 @@
+{
+    "foundPosts": [
+        {
+            "postId": 87,
+            "userId": 45,
+            "userName": "William Turner",
+            "title": "How to paint a fence of Your garden",
+            "text": "Once upon a time far away",
+            "parentPost": null,
+            "subcategoryId": 8,
+            "isPoll": false,
+            "state": 5,
+            "source": 2,
+            "ip": "127.0.0.1",
+            "comments": null,
+            "createdDatetime": "2020-12-31T01:30+03:00",
+            "updatedDatetime": "2020-12-31T01:30+03:00"
+        }
+    ],
+    "totalPosts": 1
+}
