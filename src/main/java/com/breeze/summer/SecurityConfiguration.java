@@ -4,7 +4,10 @@ import com.breeze.summer.filters.JwtRequestFilter;
 import com.breeze.summer.services.oauth2.OAuth2FailureHandler;
 import com.breeze.summer.services.oauth2.OAuth2SuccessHandler;
 import com.breeze.summer.services.oauth2.OAuth2UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,24 +24,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // // securedEnabled = true,
 // // jsr250Enabled = true
 // )
+@Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     // Configuring Authentication
+    @Autowired
     private final UserDetailsService authUserDetailsService;
+    @Autowired
     private final OAuth2UserService oAuth2UserService;
+    @Autowired
     private final JwtRequestFilter jwtRequestFilter;
+    @Autowired
     private final OAuth2FailureHandler oAuth2FailureHandler;
+    @Autowired
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-
-    public SecurityConfiguration(UserDetailsService authUserDetailsService, OAuth2UserService oAuth2UserService,
-            JwtRequestFilter jwtRequestFilter, OAuth2FailureHandler oAuth2FailureHandler,
-            OAuth2SuccessHandler oAuth2SuccessHandler) {
-        this.authUserDetailsService = authUserDetailsService;
-        this.oAuth2UserService = oAuth2UserService;
-        this.jwtRequestFilter = jwtRequestFilter;
-        this.oAuth2FailureHandler = oAuth2FailureHandler;
-        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -68,6 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/users/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/post").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest()
                 .authenticated()

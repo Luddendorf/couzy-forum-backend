@@ -3,6 +3,8 @@ package com.breeze.summer.filters;
 import com.breeze.summer.models.AuthUserDetails;
 import com.breeze.summer.services.AuthUserDetailsService;
 import com.breeze.summer.utils.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -19,16 +21,13 @@ import java.io.IOException;
 // What we want to do here is intercept every request once and examine the header.
 
 @Component
-
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-
+    @Autowired
     private AuthUserDetailsService userDetailsService;
-    private JwtUtil jwtUtil;
 
-    public JwtRequestFilter(AuthUserDetailsService userDetailsService, JwtUtil jwtUtil) {
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-    }
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

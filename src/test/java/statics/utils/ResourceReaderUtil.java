@@ -73,6 +73,10 @@ public class ResourceReaderUtil {
         readFromFileToString("/post/filter/max-parameters-filter.json"));
   }
 
+  public static String getFilterPostMaxParamsAsString() throws IOException {
+    return readFromFileToString("/post/filter/max-parameters-filter.json");
+  }
+
   // post entity:
   public static Post getPostSimple() throws IOException {
     return deserializePost(
@@ -82,6 +86,6 @@ public class ResourceReaderUtil {
   // found posts dto:
   public static FoundPosts getFoundPosts() throws IOException {
     return deserializeFoundPosts(
-        readFromFileToString("/post/foundposts/found-posts-response.json"));
+        readFromFileToString("/foundposts/found-posts-response.json"));
   }
 }

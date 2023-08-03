@@ -1,10 +1,12 @@
 package controller;
 
-import com.breeze.summer.SpringTodoAppApplication;
 import com.breeze.summer.controllers.PostControllerImpl;
 import com.breeze.summer.dto.FilterPost;
 import com.breeze.summer.dto.FoundPosts;
+import com.breeze.summer.services.AuthUserDetailsService;
 import com.breeze.summer.services.PostService;
+import com.breeze.summer.services.oauth2.OAuth2UserService;
+import config.SecurityConfigurationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,23 +33,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static statics.utils.ResourceReaderUtil.deserializeFoundPosts;
 import static statics.utils.ResourceReaderUtil.getFilterPostMaxParams;
+import static statics.utils.ResourceReaderUtil.getFilterPostMaxParamsAsString;
 import static statics.utils.ResourceReaderUtil.getFoundPosts;
 
-// @AutoConfigureMockMvc
-// @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = PostControllerImpl.class)
 @MockBean(JpaMetamodelMappingContext.class)
-@ContextConfiguration(classes = SpringTodoAppApplication.class)
+@ContextConfiguration(classes = { PostControllerImpl.class, SecurityConfigurationTest.class })
 class PostControllerTest {
   private static FilterPost postReq;
   private static FoundPosts foundPosts;
+  private static String filterPostMaxString;
 
   @BeforeAll
   static void init() {
     try {
       postReq = getFilterPostMaxParams();
       foundPosts = getFoundPosts();
+      filterPostMaxString = getFilterPostMaxParamsAsString();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -64,12 +67,19 @@ class PostControllerTest {
   @MockBean
   private PostService postService;
 
+  @MockBean
+  private AuthUserDetailsService authUserDetailsService;
+  @MockBean
+  private OAuth2UserService oAuth2UserService;
+
   @Test
   void findPostsByFilterReturnsPostsSuccessfully() throws Exception {
     when(postService.findPostsByFilter(any(FilterPost.class)))
     .thenReturn(foundPosts);
 
-    MvcResult actualResponse = mockMvc.perform(post("/post/search", postReq))
+    MvcResult actualResponse = mockMvc.perform(post("/post/search")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(filterPostMaxString))
       .andExpect(status().isOk())
       .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
       .andReturn();
@@ -78,7 +88,7 @@ class PostControllerTest {
       actualResponse.getResponse().getContentAsString()
     );
 
-    verify(postService).findPostsByFilter(postReq);
+    verify(postService).findPostsByFilter(any(FilterPost.class));
     assertEquals(foundPosts, actualResponsePayload);
   }
 }
