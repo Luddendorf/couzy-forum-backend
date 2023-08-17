@@ -17,22 +17,22 @@ spring:
     profiles:
       active: dev
     show-sql: true  
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          github:
-#            client-id: some
-#            client-secret: some-secret
-#            scope: user::email, read::user
-#          google:
-#            client-id: some
-#            client-secret: some-secret
-#            scope: email, profile
-#          facebook:
-#            client-id: some
-#            client-secret: some-secret
-#            scope: email, public_profile
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: some
+            client-secret: some-secret
+            scope: user::email, read::user
+          google:
+            client-id: some
+            client-secret: some-secret
+            scope: email, profile
+          facebook:
+            client-id: some
+            client-secret: some-secret
+            scope: email, public_profile
   # Kafka
   kafka:
     security:

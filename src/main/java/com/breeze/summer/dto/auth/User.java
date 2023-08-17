@@ -23,18 +23,18 @@ import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "person")
+@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Person {
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long personId;
+  private Long couzyUserId;
 
   @Email
   @NotBlank

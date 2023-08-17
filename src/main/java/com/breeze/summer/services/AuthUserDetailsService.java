@@ -26,4 +26,12 @@ public class AuthUserDetailsService implements UserDetailsService {
 
         return user.map(AuthUserDetails::new).get();
     }
+
+    public AuthUserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        Optional<User> user = userRepo.findByUsername(email);
+
+        user.orElseThrow(() -> new UsernameNotFoundException("Not Found: " + email));
+
+        return user.map(AuthUserDetails::new).get();
+    }
 }

@@ -17,13 +17,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
-//@EnableWebSecurity
-// @EnableGlobalMethodSecurity(
-// prePostEnabled = true
-// // securedEnabled = true,
-// // jsr250Enabled = true
-// )
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true
+// securedEnabled = true,
+// jsr250Enabled = true
+)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -80,11 +81,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2SuccessHandler)
                 .failureHandler(oAuth2FailureHandler);
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // telling spring security
-                                                                                            // to make sure that our
-                                                                                            // jwtreqfilter is called
-                                                                                            // before the username and
-                                                                                            // pwd auth filter is called
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // telling spring security
+        // to make sure that our
+        // jwtreqfilter is called
+        // before the username and
+        // pwd auth filter is called
     }
 
     @Bean
