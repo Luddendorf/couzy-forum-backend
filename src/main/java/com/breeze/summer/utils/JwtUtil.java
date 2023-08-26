@@ -1,6 +1,6 @@
 package com.breeze.summer.utils;
 
-import com.breeze.summer.models.AuthUserDetails;
+import com.breeze.summer.dto.auth.AuthUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

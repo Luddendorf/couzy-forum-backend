@@ -1,4 +1,4 @@
-package com.breeze.summer.models;
+package com.breeze.summer.dto.auth;
 
 // This class defines the structure for the response that we wil send back to the user
 public class AuthResponse {

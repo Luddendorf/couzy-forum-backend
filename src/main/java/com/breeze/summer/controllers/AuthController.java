@@ -1,5 +1,6 @@
 package com.breeze.summer.controllers;
 
+import com.breeze.summer.dto.auth.AuthResponse;
 import com.breeze.summer.dto.auth.CouzyUser;
 import com.breeze.summer.models.AuthRequest;
 import com.breeze.summer.utils.log.Loggable;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
-import com.breeze.summer.models.AuthResponse;
 
 // Controller to handle JWT Auth endpoints
 @RestController
@@ -37,8 +37,14 @@ public class AuthController {
     public ResponseEntity<?> signup(@RequestBody CouzyUser couzyUser) throws Exception {
         log.info("Received request to sign up: " + couzyUser.toString());
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("You have successfully logged in!");
+        // return ResponseEntity.status(HttpStatus.OK)
+        // .body("You have successfully logged in!");
+
+        final UserDetails userDetails = authUserDetailsService.saveNewUser(couzyUser);
+
+        final String jwt = jwtUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthResponse(jwt));
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)

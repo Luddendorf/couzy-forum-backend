@@ -1,5 +1,6 @@
-package com.breeze.summer.models;
+package com.breeze.summer.dto.auth;
 
+import com.breeze.summer.dto.auth.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +16,15 @@ import java.util.stream.Collectors;
 public class AuthUserDetails implements OAuth2User, UserDetails {
     private Long id;
     private final String username;
+    private final String email;
     private final String password;
     private boolean active;
     private final List<GrantedAuthority> authority;
     private Map<String, Object> attributes;
 
     public AuthUserDetails(User user) {
-        this.username = user.getUsername();
+        this.username = user.getUserName();
+        this.email = user.getEmail();
         this.password = user.getPassword();
         this.active = user.isActive();
         this.authority = Arrays
@@ -30,9 +33,11 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
                 .collect(Collectors.toList());
     }
 
-    public AuthUserDetails(long id, String username, String password, List<GrantedAuthority> authorities) {
+    public AuthUserDetails(long id, String username, String email, String password,
+            List<GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.authority = authorities;
     }
@@ -55,6 +60,10 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -85,8 +94,9 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new AuthUserDetails(
-                user.getId(),
-                user.getUsername(),
+                user.getCouzyUserId(),
+                user.getUserName(),
+                user.getEmail(),
                 user.getPassword(),
                 authorities);
     }
@@ -95,6 +105,13 @@ public class AuthUserDetails implements OAuth2User, UserDetails {
         AuthUserDetails userPrincipal = AuthUserDetails.create(user);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
+    }
+
+    public static AuthUserDetails makeFreshUser(User user) {
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
+
+        return new AuthUserDetails(user.getCouzyUserId(), user.getUserName(),
+                user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override

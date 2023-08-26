@@ -1,6 +1,6 @@
 package com.breeze.summer.filters;
 
-import com.breeze.summer.models.AuthUserDetails;
+import com.breeze.summer.dto.auth.AuthUserDetails;
 import com.breeze.summer.services.AuthUserDetailsService;
 import com.breeze.summer.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -38,17 +38,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // context
 
         final String authHeader = request.getHeader("Authorization");
-        String username = null;
+        String email = null;
         String jwt = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+            email = jwtUtil.extractUsername(jwt);
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            AuthUserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            AuthUserDetails userDetails = this.userDetailsService.loadUserByEmail(email);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
 
