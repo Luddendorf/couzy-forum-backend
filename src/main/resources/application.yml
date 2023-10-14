@@ -81,13 +81,18 @@ second-server:
   apiKey: bXkgc3VwZXIgc2VjcmV0IGFwaSBrZXk=
 
 spring.jpa.hibernate.ddl-auto: update
-
 logging:
   level:
+    root: debug
     org:
       springframework:
         web: debug
       hibernate: error
+        sql: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace
 deployment:
   env: dev
 springdoc:

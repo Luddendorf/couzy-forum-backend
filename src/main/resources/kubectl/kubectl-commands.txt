@@ -1,0 +1,18 @@
+
+Deployment -> Service -> ReplicaSet -> Template -> Pod
+
+ServiceAccount RoleBinding
+
+kubectl describe deployment/my-magic-service -n my-namespace
+
+kubectl get pods -n my-namespace
+
+kubectl logs my-magic-service-45terts -n my-namespace
+
+kubectl exec -it my-magic-service-4545rt -- sh
+
+ls -la 
+cat users/vault/application-secret.yml
+env
+
+CrashLoopBackOff  ImageLoopBackBackOff
