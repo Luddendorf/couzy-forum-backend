@@ -20,6 +20,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
 
+  // @BeforeAll
+  void init() {
+    // System.setProperty("SHOW_SQL", myContainer.getShowSql());
+  }
+
   @AfterEach
   void tearDown() {
     verifyNoInteractions(postService);
@@ -35,10 +40,17 @@ public class PostServiceTest {
   PostService postService;
 
   @Test
+  @Cacheable
   void testFindPosts() {
     when(postService.findPostsByFilter(any(FilterPost.class)))
       .thenReturn(null);
     
     verify(postService).findPostsByFilter(any(FilterPost.class));
+  }
+
+  @Test
+  void readJsonFileTest() {
+    InputStream is = this.getClass().getResourceAsStream("request-to-magic-server.json");
+
   }
 }

@@ -16,7 +16,7 @@ spring:
         auto: create-drop
     profiles:
       active: dev
-    show-sql: true  
+    show-sql: ${SHOW_SQL:true}  
   security:
     oauth2:
       client:
